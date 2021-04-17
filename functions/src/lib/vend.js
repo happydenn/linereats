@@ -16,13 +16,15 @@ const vend = axios.create({
 async function checkPoints(code) {
   console.log('Checking remaining points');
 
-  const refererUrl = `${host}/app/point_check/point_check?key=${pointCheckKey}&country=${country}`;
   const postData = {
     country,
     key: pointCheckKey,
     id: code,
   };
-  const headers = { referer: refererUrl };
+
+  const headers = {
+    referer: `${host}/app/point_check/point_check?key=${pointCheckKey}&country=${country}`,
+  };
 
   try {
     const { data } = await vend.post('/app/point_check/point_check_api', postData, { headers });
@@ -46,6 +48,7 @@ async function checkMachineAmount(machineId) {
 
   const headers = {
     'content-type': 'application/x-www-form-urlencoded',
+    referer: `${host}/machineid/${machineId}`,
   };
 
   const { data } = await vend.post('/epay/model/payment_api', params.toString(), { headers });
