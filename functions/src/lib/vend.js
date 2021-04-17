@@ -4,6 +4,7 @@ const axios = require('axios').default;
 const {
   host,
   country,
+  payuuid,
   key: pointCheckKey,
   amountkey: amountCheckKey,
 } = functions.config().vend;
@@ -38,16 +39,16 @@ async function checkPoints(code) {
 }
 
 async function checkMachineAmount(machineId) {
-  const qs = new URLSearchParams();
-  qs.set('func', 'loadDefaultAmount');
-  qs.set('vidCode', machineId);
-  qs.set('key', amountCheckKey);
+  const params = new URLSearchParams();
+  params.set('func', 'loadDefaultAmount');
+  params.set('vidCode', machineId);
+  params.set('key', amountCheckKey);
 
   const headers = {
     'content-type': 'application/x-www-form-urlencoded',
   };
 
-  const { data } = await vend.post('/epay/model/payment_api', qs.toString(), { headers });
+  const { data } = await vend.post('/epay/model/payment_api', params.toString(), { headers });
   return data;
 }
 
@@ -56,7 +57,7 @@ async function pay(machineId, payCode, amount) {
     vid: machineId,
     amount: `${amount}`,
     staff_id: payCode,
-    uuid: '111',
+    uuid: payuuid,
     haveAuth: false,
   };
 
