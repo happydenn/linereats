@@ -1,6 +1,7 @@
 import { Box, Text, Container, VStack, Heading, Button, HStack, Avatar, Spacer, Stat, StatLabel, StatNumber, Center } from '@chakra-ui/react';
 import { Link } from '@reach/router';
 import { BeatLoader } from 'react-spinners';
+import { Helmet } from 'react-helmet';
 
 import LogoHorizontal from '../components/logo-horizontal';
 import { useAuth } from '../hooks/auth';
@@ -13,6 +14,10 @@ function Main() {
   if (loading || !user) {
     return (
       <Container>
+        <Helmet>
+          <title>LINER Eats</title>
+        </Helmet>
+
         <Center h="md">
           <VStack spacing="8">
             <LogoHorizontal />
@@ -25,6 +30,10 @@ function Main() {
 
   return (
     <Container>
+      <Helmet>
+        <title>LINER Eats</title>
+      </Helmet>
+
       <VStack>
         <Box width="100%" py={5}>
           <HStack>

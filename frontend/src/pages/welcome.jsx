@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, Container, VStack, Heading, Text, Input, Button, FormControl, FormErrorMessage, useToast } from '@chakra-ui/react';
 import { useNavigate } from '@reach/router';
+import { Helmet } from 'react-helmet';
 
 import { useAuth } from '../hooks/auth';
 import LogoHorizontal from '../components/logo-horizontal';
@@ -44,6 +45,10 @@ function Welcome() {
 
   return (
     <Container>
+      <Helmet>
+        <title>開始使用 - LINER Eats</title>
+      </Helmet>
+
       <VStack>
         <Box width="100%" py={5}>
           <LogoHorizontal />

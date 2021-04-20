@@ -1,5 +1,6 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { Router, Redirect } from '@reach/router';
+import { Helmet } from 'react-helmet';
 
 import { useAuth } from './hooks/auth';
 import Login from './pages/login';
@@ -30,6 +31,10 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
+      <Helmet>
+        <title>LINER Eats</title>
+      </Helmet>
+
       <Router>
         <Login path="login" />
         <Main path="/" />

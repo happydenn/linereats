@@ -17,6 +17,7 @@
     "modern-react-qr-reader": "^1.0.12",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
     "react-icons": "^3.11.0",
     "react-qr-reader": "^2.2.1",
     "react-scripts": "4.0.3",

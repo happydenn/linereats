@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Box, Center, VStack } from '@chakra-ui/react';
 import { Global, css } from '@emotion/react';
 import { useNavigate } from '@reach/router';
+import { Helmet } from 'react-helmet';
 
 import { useAuth } from '../hooks/auth';
 import LogoStackedWhite from '../components/logo-stacked-white';
@@ -29,6 +30,10 @@ function Login() {
 
   return (
     <Box>
+      <Helmet>
+        <title>登入 - LINER Eats</title>
+      </Helmet>
+
       <Global styles={globalStyles} />
 
       <Center h="md">
