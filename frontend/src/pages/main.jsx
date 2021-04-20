@@ -44,7 +44,7 @@ function Main() {
 
           <VStack alignItems="stretch" mt="8">
             <Button as={Link} size="lg" colorScheme="green" to="scan">掃描條碼</Button>
-            <Text fontSize="sm" fontStyle="italic">請確認瀏覽器有相機開啟權限，iOS 使用者請使用 Safari</Text>
+            <Text fontSize="sm" textAlign="center">請確認瀏覽器有開啟相機權限</Text>
           </VStack>
         </Box>
       </VStack>
