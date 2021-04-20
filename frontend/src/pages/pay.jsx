@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, VStack, Box, HStack, Spacer, Avatar, Heading, Stat, StatLabel, StatNumber, Button, Text, useToast } from '@chakra-ui/react';
+import { Container, VStack, Box, HStack, Spacer, Avatar, Heading, Stat, StatLabel, StatNumber, Button, Text, Checkbox, useToast } from '@chakra-ui/react';
 import { BeatLoader } from 'react-spinners';
 import { useNavigate } from '@reach/router';
 import useSWR from 'swr';
@@ -9,6 +9,7 @@ import LogoHorizontal from '../components/logo-horizontal';
 
 function Pay({ machineId }) {
   const [inProgress, setInProgress] = useState(false);
+  const [stayAfterPay, setStayAfterPay] = useState(false);
 
   const { user, client, refresh } = useAuth();
   const toast = useToast();
@@ -40,6 +41,10 @@ function Pay({ machineId }) {
       });
 
       refresh();
+
+      if (stayAfterPay) {
+        return;
+      }
       navigate('/');
     } catch (err) {
       toast({
@@ -53,6 +58,10 @@ function Pay({ machineId }) {
 
   const handleCancel = () => {
     navigate(-1);
+  };
+
+  const handleStayCheck = (e) => {
+    setStayAfterPay(e.target.checked);
   };
 
   if (!user) {
@@ -88,6 +97,8 @@ function Pay({ machineId }) {
           )}
 
           <VStack alignItems="stretch" mt="6">
+            <Checkbox isChecked={stayAfterPay} onChange={handleStayCheck}>結帳完成後留在本頁</Checkbox>
+
             <Button size="lg" colorScheme="green" onClick={handlePay} disabled={!machineData?.defaultAmount} isLoading={inProgress}>確認付款</Button>
             <Button size="lg" colorScheme="red" onClick={handleCancel} isLoading={inProgress}>取消</Button>
           </VStack>
