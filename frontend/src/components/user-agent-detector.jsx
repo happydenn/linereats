@@ -3,11 +3,40 @@ import { Drawer, DrawerOverlay, DrawerContent, DrawerBody, HStack, Box, Heading,
 import { WarningTwoIcon } from '@chakra-ui/icons';
 import UAParser from 'ua-parser-js';
 
+function getRecommendedBrowser(os, browser) {
+  const osName = os.name.toLowerCase();
+  const browserName = browser.name.toLowerCase();
+
+  if (osName === 'ios') {
+    const osVersion = parseFloat(os.version);
+
+    if (osVersion >= 14.3) {
+      return null;
+    }
+
+    if (osVersion < 11) {
+      return '升級 iOS 到最新版';
+    }
+
+    if (browserName.indexOf('safari') === -1) {
+      return 'Safari';
+    }
+  }
+
+  if (osName === 'android') {
+    if (browserName.indexOf('chrome') === -1) {
+      return 'Chrome';
+    }
+  }
+
+  return null;
+}
+
 function UserAgentDetector() {
   const [browser, setBrowser] = useState(null);
   const [platform, setPlatform] = useState(null);
   const [detected, setDetected] = useState(false);
-  const [recommended, setRecommended] = useState('');
+  const [recommended, setRecommended] = useState(null);
 
   useEffect(() => {
     const parser = new UAParser();
@@ -16,22 +45,10 @@ function UserAgentDetector() {
     const operatingSystem = parser.getOS();
     const userBrowser = parser.getBrowser();
 
-    if (operatingSystem.name === "iOS") {
-      const osVersion = parseFloat(operatingSystem.version);
-
-      if (osVersion >= 11.0 && osVersion < 14.3 && userBrowser.name.indexOf('Safari') === -1) {
-        setRecommended('Safari');
-      } else if (osVersion < 11.0) {
-        setRecommended('請升級到 iOS 11 以上');
-      }
-    } else if (operatingSystem.name === "Android") {
-      if (userBrowser.name.indexOf('Chrome') === -1) {
-        setRecommended('Chrome');
-      }
-    }
-
     setPlatform(operatingSystem);
     setBrowser(userBrowser);
+    setRecommended(getRecommendedBrowser(operatingSystem, userBrowser));
+
     setDetected(true);
   }, []);
 
