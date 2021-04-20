@@ -7,6 +7,7 @@ import Main from './pages/main';
 import Welcome from './pages/welcome';
 import Scan from './pages/scan';
 import Pay from './pages/pay';
+import UserAgentDetector from './components/user-agent-detector';
 
 const theme = extendTheme({
   colors: {
@@ -38,6 +39,7 @@ function App() {
       </Router>
 
       {redirectComponent}
+      <UserAgentDetector />
     </ChakraProvider>
   );
 }
