@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { ColorModeScript } from '@chakra-ui/react';
 
 import firebase from 'firebase/app';
+import 'firebase/analytics';
 import 'firebase/auth';
 
 import { AuthProvider } from './hooks/auth';
@@ -17,6 +18,8 @@ firebase.initializeApp({
   appId: "1:624684848408:web:49da7580b8119cf1f8fa6d",
   measurementId: "G-MREGJ9FDS8",
 });
+
+firebase.analytics();
 
 if (process.env.REACT_APP_ENVIRONMENT === 'local') {
   console.log('running in local environment');
