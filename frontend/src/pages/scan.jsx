@@ -1,6 +1,7 @@
 import { Global, css } from '@emotion/react';
 import { Button, Text, VStack, useToast } from '@chakra-ui/react';
 import { useNavigate } from '@reach/router';
+import { Helmet } from 'react-helmet';
 import QrReader from 'modern-react-qr-reader';
 
 const globalStyles = css`
@@ -45,6 +46,10 @@ function Scan() {
   return (
     <>
       <Global styles={globalStyles} />
+
+      <Helmet>
+        <title>掃描 QR Code - LINER Eats</title>
+      </Helmet>
 
       <VStack mt="80px" spacing="10">
         <QrReader

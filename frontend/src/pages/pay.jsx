@@ -3,6 +3,7 @@ import { Container, VStack, Box, HStack, Spacer, Avatar, Heading, Stat, StatLabe
 import { BeatLoader } from 'react-spinners';
 import { useNavigate } from '@reach/router';
 import useSWR from 'swr';
+import { Helmet } from 'react-helmet';
 
 import { useAuth } from '../hooks/auth';
 import LogoHorizontal from '../components/logo-horizontal';
@@ -70,6 +71,10 @@ function Pay({ machineId }) {
 
   return (
     <Container>
+      <Helmet>
+        <title>結帳 - LINER Eats</title>
+      </Helmet>
+
       <VStack>
         <Box width="100%" py={5}>
           <HStack>
