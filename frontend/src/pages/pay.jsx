@@ -22,6 +22,8 @@ function Pay({ machineId }) {
     { refreshInterval: 1000 },
   );
 
+  const canAfford = machineData?.defaultAmount && user.points >= machineData.defaultAmount;
+
   const handlePay = async () => {
     setInProgress(true);
 
@@ -96,7 +98,13 @@ function Pay({ machineId }) {
           </Stat>
 
           {machineData?.defaultAmount ? (
-            <Text>確認品項後按鈕付款。</Text>
+            <>
+              {canAfford ? (
+                <Text>確認品項後按鈕付款。</Text>
+              ) : (
+                <Text textColor="red">抱歉，剩餘點數不足</Text>
+              )}
+            </>
           ) : (
             <Text>你還沒選擇品項喔！選完點數會自動更新。</Text>
           )}
@@ -104,7 +112,16 @@ function Pay({ machineId }) {
           <VStack alignItems="stretch" mt="6">
             <Checkbox isChecked={stayAfterPay} onChange={handleStayCheck}>結帳完成後留在本頁</Checkbox>
 
-            <Button size="lg" colorScheme="green" onClick={handlePay} disabled={!machineData?.defaultAmount} isLoading={inProgress}>確認付款</Button>
+            <Button
+              size="lg"
+              colorScheme="green"
+              onClick={handlePay}
+              disabled={!machineData?.defaultAmount || !canAfford}
+              isLoading={inProgress}
+            >
+              確認付款
+            </Button>
+
             <Button size="lg" colorScheme="red" onClick={handleCancel} isLoading={inProgress}>取消</Button>
           </VStack>
         </Box>
