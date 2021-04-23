@@ -26,6 +26,13 @@
     ],
     "rewrites": [
       {
+        "source": "/ping",
+        "run": {
+          "serviceId": "server",
+          "region": "us-central1"
+        }
+      },
+      {
         "source": "/api/**",
         "function": "api"
       },
