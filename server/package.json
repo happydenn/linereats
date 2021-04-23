@@ -1,0 +1,24 @@
+{
+  "name": "linereats-server",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node -r dotenv/config src/server",
+    "dev": "nodemon -x 'node -r dotenv/config' src/server"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cookie-parser": "^1.4.5",
+    "cryptr": "^6.0.2",
+    "date-fns": "^2.21.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "firebase-admin": "^9.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "nanoid": "^3.1.22",
+    "simple-oauth2": "^4.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
