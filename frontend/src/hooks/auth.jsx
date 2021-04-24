@@ -24,6 +24,8 @@ function AuthProvider({ children }) {
   const refresh = () => mutate('/api/me');
 
   useEffect(() => firebase.auth().onAuthStateChanged(async (fbUser) => {
+    window.dataLayer.push({ 'userId': fbUser?.uid });
+
     if (fbUser) {
       const token = await fbUser.getIdToken();
       setIdToken(token);
