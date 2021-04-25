@@ -1,4 +1,5 @@
 const axios = require('axios').default;
+const cheerio = require('cheerio');
 
 const {
   host,
@@ -50,8 +51,24 @@ async function checkMachineAmount(machineId) {
     referer: `${host}/machineid/${machineId}`,
   };
 
-  const { data } = await vend.post('/epay/model/payment_api', params.toString(), { headers });
-  return data;
+  const [paymentData, machineName] = await Promise.all([
+    vend.post('/epay/model/payment_api', params.toString(), { headers }),
+    getMachineName(machineId),
+  ]);
+  const { data } = paymentData;
+
+  return { ...data, machineName };
+}
+
+async function getMachineName(machineId) {
+  try {
+    const { data } = await vend.get(`/machineid/${machineId}`);
+    const $ = cheerio.load(data);
+    return $('.div-store').text().trim();
+  } catch (error) {
+    console.warn(`Error getting machine name. machineId=${machineId}, error=${error.message}`);
+    return '';
+  }
 }
 
 async function pay(machineId, payCode, amount) {
