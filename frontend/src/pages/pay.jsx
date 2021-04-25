@@ -74,7 +74,7 @@ function Pay({ machineId }) {
   return (
     <Container>
       <Helmet>
-        <title>結帳 - LINER Eats</title>
+        <title>結帳{machineData ? `：${machineData.machineName}` : ''} - LINER Eats</title>
       </Helmet>
 
       <VStack>
@@ -87,7 +87,10 @@ function Pay({ machineId }) {
         </Box>
 
         <Box width="100%" paddingTop="5">
-          <Heading mb={10}>付款</Heading>
+          <VStack mb="7" alignItems="stretch">
+            <Heading>付款</Heading>
+            <Text fontSize="xl">{machineData ? machineData.machineName : <BeatLoader size={7} color="gray" />}</Text>
+          </VStack>
 
           <Stat>
             <StatLabel>點數</StatLabel>
@@ -110,7 +113,7 @@ function Pay({ machineId }) {
           )}
 
           <VStack alignItems="stretch" mt="6">
-            <Checkbox isChecked={stayAfterPay} onChange={handleStayCheck}>結帳完成後留在本頁</Checkbox>
+            <Checkbox isChecked={stayAfterPay} onChange={handleStayCheck}>連續購買模式</Checkbox>
 
             <Button
               size="lg"
