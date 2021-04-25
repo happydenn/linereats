@@ -25,6 +25,7 @@ function Login() {
   }, [loading, isLoggedIn, navigate]);
 
   const handleClick = () => {
+    window.dataLayer.push({ event: 'login' });
     window.location.href = process.env.REACT_APP_LOGIN_URL || '/auth/login';
   };
 

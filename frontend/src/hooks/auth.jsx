@@ -24,15 +24,24 @@ function AuthProvider({ children }) {
   const refresh = () => mutate('/api/me');
 
   useEffect(() => firebase.auth().onAuthStateChanged(async (fbUser) => {
-    window.dataLayer.push({ 'userId': fbUser?.uid });
-
     if (fbUser) {
+      window.dataLayer.push({
+        event: 'authenticate',
+        userId: fbUser.uid,
+      });
+
       const token = await fbUser.getIdToken();
       setIdToken(token);
     }
 
     setInitialized(true);
   }), []);
+
+  useEffect(() => {
+    if (initialized) {
+      window.dataLayer.push({ event: 'initGA' });
+    }
+  }, [initialized]);
 
   return initialized ? (
     <AuthContext.Provider value={{user, error, loading, client, isLoggedIn, refresh}}>
