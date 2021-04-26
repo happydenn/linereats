@@ -7,6 +7,7 @@ const vend = require('./vend');
 const db = admin.firestore();
 const users = db.collection('users');
 const machines = db.collection('machines');
+const orders = db.collection('orders');
 
 async function updateOrCreateUser(data) {
   const { id, ...userData } = data;
@@ -87,9 +88,17 @@ async function createOrUpdateMachine(id, data) {
   });
 }
 
+async function createOrder(data) {
+  return orders.add({
+    ...data,
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+  });
+}
+
 module.exports = {
   updateOrCreateUser,
   getUser,
   createOrUpdateMachine,
   getMachine,
+  createOrder,
 };

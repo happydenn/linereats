@@ -130,6 +130,19 @@ app.post('/api/pay', verifyToken, express.json(), asyncHandler(async (req, res) 
 
   console.log(`Payment complete result=${JSON.stringify(result)}`);
 
+  try {
+    await db.createOrder({
+      user: req.user.id,
+      machine: machineId,
+      amount: machineData.defaultAmount,
+      selectedItem: machineData.amountCh,
+      success: result.status === 'success',
+      rawLog: result,
+    });
+  } catch (error) {
+    console.warn(`Error saving order: ${error.message}`);
+  }
+
   if (result.status !== 'success') {
     res.json({ success: false, error: 'error paying with vendor' });
     return;
