@@ -51,13 +51,8 @@ async function checkMachineAmount(machineId) {
     referer: `${host}/machineid/${machineId}`,
   };
 
-  const [paymentData, machineName] = await Promise.all([
-    vend.post('/epay/model/payment_api', params.toString(), { headers }),
-    getMachineName(machineId),
-  ]);
-  const { data } = paymentData;
-
-  return { ...data, machineName };
+  const { data } = await vend.post('/epay/model/payment_api', params.toString(), { headers });
+  return data;
 }
 
 async function getMachineName(machineId) {
@@ -95,5 +90,6 @@ async function pay(machineId, payCode, amount) {
 module.exports = {
   checkPoints,
   checkMachineAmount,
+  getMachineName,
   pay,
 };

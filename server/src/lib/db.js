@@ -2,9 +2,11 @@ const admin = require('firebase-admin');
 const differenceInMinutes = require('date-fns/differenceInMinutes');
 
 const line = require('./line');
+const vend = require('./vend');
 
 const db = admin.firestore();
 const users = db.collection('users');
+const machines = db.collection('machines');
 
 async function updateOrCreateUser(data) {
   const { id, ...userData } = data;
@@ -47,7 +49,47 @@ async function getUser(id) {
   return { id, ...userData };
 }
 
+async function getMachine(id) {
+  const ref = machines.doc(id);
+  const snap = await ref.get();
+
+  let machineData = snap.data();
+
+  if (!snap.exists) {
+    machineData = { id };
+  }
+
+  if (!machineData.updatedAt || differenceInMinutes(new Date(), machineData.updatedAt.toDate()) > 120) {
+    const name = await vend.getMachineName(id);
+    await createOrUpdateMachine(id, { id, name });
+    return getMachine(id);
+  }
+
+  return machineData;
+}
+
+async function createOrUpdateMachine(id, data) {
+  const ref = machines.doc(id);
+  const snap = await ref.get();
+  const timestamp = admin.firestore.FieldValue.serverTimestamp();
+
+  if (snap.exists) {
+    return ref.update({
+      ...data,
+      updatedAt: timestamp,
+    })
+  }
+
+  return ref.set({
+    ...data,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  });
+}
+
 module.exports = {
   updateOrCreateUser,
   getUser,
+  createOrUpdateMachine,
+  getMachine,
 };

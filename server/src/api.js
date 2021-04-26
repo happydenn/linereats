@@ -96,8 +96,12 @@ app.get('/api/machine/:machineId', verifyToken, asyncHandler(async (req, res) =>
     return;
   }
 
-  const machineData = await vend.checkMachineAmount(machineId);
-  res.json(machineData);
+  const [machineData, amountData] = await Promise.all([
+    db.getMachine(machineId),
+    vend.checkMachineAmount(machineId),
+  ]);
+
+  res.json({ machineName: machineData.name, ...amountData });
 }));
 
 app.post('/api/pay', verifyToken, express.json(), asyncHandler(async (req, res) => {
