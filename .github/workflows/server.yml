@@ -23,4 +23,5 @@ jobs:
     - name: Deploy with Cloud Run
       run: |
         cd server
+        gcloud components install beta
         gcloud beta run deploy server --project linereats --source . --concurrency 100 --platform managed --region us-central1 --memory 512Mi
