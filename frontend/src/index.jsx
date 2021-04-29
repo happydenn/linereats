@@ -1,6 +1,8 @@
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import { ColorModeScript } from '@chakra-ui/react';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
 
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -21,6 +23,12 @@ if (process.env.REACT_APP_ENVIRONMENT === 'local') {
   console.log('running in local environment');
   firebase.auth().useEmulator('http://localhost:9099');
 }
+
+Sentry.init({
+  dsn: process.env.REACT_APP_SENTRY_DSN,
+  integrations: [new Integrations.BrowserTracing()],
+  tracesSampleRate: 1.0,
+});
 
 (async () => {
   const hashParams = new URLSearchParams(window.location.hash.slice(1));

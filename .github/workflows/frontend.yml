@@ -23,6 +23,7 @@ jobs:
         REACT_APP_ENVIRONMENT: production
         REACT_APP_LOGIN_URL: https://linereats.web.app/auth/login
         REACT_APP_PAY_VALID_URL: ${{ secrets.REACT_APP_PAY_VALID_URL }}
+        REACT_APP_SENTRY_DSN: ${{ secrets.REACT_APP_SENTRY_DSN }}
       run: |
         cd frontend
         npm ci
